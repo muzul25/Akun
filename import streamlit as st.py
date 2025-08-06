@@ -31,4 +31,13 @@ if st.button("Cari"):
         st.write(f"**Password:** {selected_data['Password']}")
     else:
         st.warning("Username tidak ditemukan.")
+        
+
+@st.cache_data
+def load_data():
+    return pd.read_csv("database.csv")
+
+df = load_data()
+
+
 
