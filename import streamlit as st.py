@@ -1,22 +1,31 @@
 import streamlit as st
 import pandas as pd
 
-# Load database dari file CSV
-df = pd.read_csv("database.csv")
-
-# Judul aplikasi
 st.title("Pencarian Username & Password")
+
+try:
+    # Coba baca file dengan delimiter koma
+    df = pd.read_csv("database.csv")
+except pd.errors.ParserError:
+    try:
+        # Coba lagi dengan delimiter titik koma
+        df = pd.read_csv("database.csv", delimiter=';')
+    except Exception as e:
+        st.error(f"Gagal membaca file database.csv: {e}")
+        st.stop()
+
+# Preview data
+st.write("Preview Data (5 baris pertama):")
+st.write(df.head())
 
 # Form pencarian username
 username_input = st.text_input("Masukkan Username:")
 
 # Tombol cari
 if st.button("Cari"):
-    # Filter data berdasarkan username (case-insensitive)
     result = df[df['Username'].str.lower() == username_input.lower()]
-    
+
     if not result.empty:
-        # Ambil hanya satu data jika ada beberapa yang cocok
         selected_data = result.iloc[0][['Nama', 'Username', 'Password']]
         st.success("Data ditemukan!")
         st.write("### Hasil Pencarian:")
