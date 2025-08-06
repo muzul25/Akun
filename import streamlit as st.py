@@ -14,9 +14,6 @@ except pd.errors.ParserError:
         st.error(f"Gagal membaca file database.csv: {e}")
         st.stop()
 
-# Preview data
-st.write("Preview Data (5 baris pertama):")
-st.write(df.head())
 
 # Form pencarian username
 username_input = st.text_input("Masukkan Username:")
@@ -34,3 +31,4 @@ if st.button("Cari"):
         st.write(f"**Password:** {selected_data['Password']}")
     else:
         st.warning("Username tidak ditemukan.")
+
